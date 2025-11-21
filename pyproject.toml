@@ -5,14 +5,6 @@ description = "Advanced Android kernel builder with Kali NetHunter support."
 authors = [{name = "seppzer0"}]
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = [
-    "argparse",
-    "conan ~=1.6",
-    "requests ~=2.31",
-    "pathlib ~=1.0",
-    "typing ~=3.7",
-    "pydantic ~=2.6",
-]
 
 [project.urls]
 Repository = "https://github.com/seppzer0/zero_kernel"
@@ -36,6 +28,7 @@ dev = [
     "pyright ~=1.1",
     "ruff ~=0.14",
     "pre-commit ~=4.3",
+    "pylint ~=4.0",
     "pip",
 ]
 
