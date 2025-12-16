@@ -2,18 +2,17 @@ import os
 import sys
 import logging
 from typing import Literal, Optional
-from pydantic import BaseModel
 
 from zkb.tools import banner, fileoperations as fo, cleaning as cm
 from zkb.clients import GithubApiClient, LineageOsApiClient, ParanoidAndroidApiClient
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import IAssetsCollector
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class AssetsCollector(BaseModel, IAssetsCollector):
+class AssetsCollector(ModelConfig, IAssetsCollector):
     """Assets collector.
 
     :param str codename: Device codename.

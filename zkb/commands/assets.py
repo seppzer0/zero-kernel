@@ -1,16 +1,16 @@
 import logging
 from typing import Literal
-from pydantic import BaseModel
 
 from zkb.core import AssetsCollector
 from zkb.tools import banner, fileoperations as fo
+from zkb.configs import ModelConfig
 from zkb.interfaces import ICommand
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class AssetsCommand(BaseModel, ICommand):
+class AssetsCommand(ModelConfig, ICommand):
     """Command responsible for launching the 'assets_collector' core module directly.
 
     :param builder.core.AssetsCollector assets_collector: Assets collector object.

@@ -3,16 +3,16 @@ import json
 import logging
 import platform
 from pathlib import Path
-from pydantic import BaseModel
 from typing import Optional, Literal
 
 from zkb.tools import commands as ccmd
+from zkb.configs import ModelConfig
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class ArgumentConfig(BaseModel):
+class ArgumentConfig(ModelConfig):
     """Variable storage for usage across the app.
 
     :param Literal["docker","podman","local"] benv: Build environment.

@@ -4,10 +4,9 @@ import time
 import logging
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseModel
 
 from zkb.tools import cleaning as cm, commands as ccmd, fileoperations as fo, banner
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.managers import ResourceManager
 from zkb.interfaces import IKernelBuilder
 
@@ -15,7 +14,7 @@ from zkb.interfaces import IKernelBuilder
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class KernelBuilder(BaseModel, IKernelBuilder):
+class KernelBuilder(ModelConfig, IKernelBuilder):
     """Kernel builder.
 
     :param str codename: Device codename.

@@ -1,14 +1,14 @@
 import requests
 import logging
-from pydantic import BaseModel
 
+from zkb.configs import ModelConfig
 from zkb.interfaces import IRomApiClient
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class RomApiClient(BaseModel, IRomApiClient):
+class RomApiClient(ModelConfig, IRomApiClient):
     """Generic class for interacting with ROMs' APIs.
 
     :param str endpoint: API endpoint to interact with.
