@@ -342,6 +342,7 @@ class KernelBuilder(ModelConfig, IKernelBuilder):
                 "CONFIG_MAC80211=y",
                 "CONFIG_RTL8187=y",
                 "CONFIG_RTLWIFI=y",
+                "CONFIG_RTL8187L=y",
             ]
 
         # KernelSU changes
