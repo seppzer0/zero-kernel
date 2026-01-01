@@ -3,4 +3,4 @@ from pydantic import BaseModel, ConfigDict
 
 class ModelConfig(BaseModel):
     """Model configuration."""
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="ignore")
