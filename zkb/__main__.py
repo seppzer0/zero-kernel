@@ -298,7 +298,7 @@ def main() -> None:
                     ac = AssetsCommand(assets_collector=assets_collector)
                     ac.execute()
 
-                case "bundle":  
+                case "bundle":
                     bc = BundleCommand(
                         kernel_builder = kernel_builder,
                         assets_collector = assets_collector,
