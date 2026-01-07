@@ -271,10 +271,10 @@ class KernelBuilder(ModelConfig, IKernelBuilder):
         cm.remove(self.rmanager.paths["AnyKernel3"] / "ramdisk")
         cm.remove(self.rmanager.paths["AnyKernel3"] / "models")
 
-        #fo.ucopy(
-        #    dcfg.root / "zkb" / "modifications" / self._ucodename / "anykernel3" / "ramdisk",
-        #    self.rmanager.paths["AnyKernel3"] / "ramdisk"
-        #)
+        fo.ucopy(
+            dcfg.root / "zkb" / "modifications" / self._ucodename / "anykernel3" / "ramdisk",
+            self.rmanager.paths["AnyKernel3"] / "ramdisk"
+        )
         fo.ucopy(
             dcfg.root / "zkb" / "modifications" / self._ucodename / "anykernel3" / "anykernel.sh",
             self.rmanager.paths["AnyKernel3"] / "anykernel.sh"
