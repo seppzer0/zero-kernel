@@ -4,19 +4,18 @@ import shutil
 import logging
 import itertools
 from pathlib import Path
-from pydantic import BaseModel
 from typing import Literal, Optional
 
 from zkb.core import KernelBuilder, AssetsCollector
 from zkb.tools import cleaning as cm, commands as ccmd, fileoperations as fo
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import ICommand
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class BundleCommand(BaseModel, ICommand):
+class BundleCommand(ModelConfig, ICommand):
     """Command that packages the artifacts produced both by 'kernel_builder' and 'assets_collector' core modules.
 
     :param builder.core.KernelBuilder kernel_builder: Kernel builder object.

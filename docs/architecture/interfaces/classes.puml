@@ -1,18 +1,18 @@
 @startuml classes
 set namespaceSeparator none
 interface "IAssetsCollector" as interfaces.modules.IAssetsCollector {
-  assets
-  rom_collector_dto
+  assets : list
+  rom_collector_dto : LineageOsApiClient | ParanoidAndroidApiClient | None
   {abstract}run() -> None
 }
 interface "ICommand" as interfaces.commands.ICommand {
   {abstract}execute() -> None
 }
 interface "IGenericContainerEngine" as interfaces.engines.IGenericContainerEngine {
-  builder_cmd
-  container_options
-  dir_bundle_conan
-  get_container_cmd
+  builder_cmd : str
+  container_options : list[str]
+  dir_bundle_conan : Path
+  get_container_cmd : str
   {abstract}build_image() -> str | None | CompletedProcess
   {abstract}check_cache() -> bool
   {abstract}create_dirs() -> None
