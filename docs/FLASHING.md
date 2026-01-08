@@ -20,7 +20,7 @@ Backup should be made with removed lockscreen passwords/fingerprints/PINs. Other
 
 Listed below files are required:
 
-- compiled kernel, obviously;
+- the compiled kernel ZIP;
 - ROM;
 - Magisk or KernelSU;
 - TWRP, the special [build](https://sourceforge.net/projects/op5-5t/files/Android-12/TWRP/twrp-3.7.0_12-5-dyn-cheeseburger_dumpling.img/download) by faoliveira78 (supports operations with encrypted and dynamic partitions);
@@ -53,7 +53,7 @@ Before doing anything, please ensure that you have:
 - if using a Retrofit Dynamic Partitions ROM such as ParanoidAndoid -> untoggle `Unmount System before installing a ZIP` in the Settings;
 - flash the ROM;
 - flash the kernel;
-- **if using Magisk** --> flash Magisk root manager (you must change the `.apk` extension into `.zip` for this);
+- **if using Magisk** --> flash Magisk root manager (you can flash the .apk directly, it'll be processed as a ZIP);
 - flash DM-Verity and Force Encrypt disabler zip;
 - reboot into system via `Reboot -> System` .
 
