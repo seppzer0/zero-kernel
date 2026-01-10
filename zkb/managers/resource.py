@@ -5,17 +5,16 @@ import tarfile
 import logging
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseModel
 
 from zkb.tools import cleaning as cm, commands as ccmd, fileoperations as fo
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import IResourceManager
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class ResourceManager(BaseModel, IResourceManager):
+class ResourceManager(ModelConfig, IResourceManager):
     """Build resource manager.
 
     :param Optional[str]=None codename: Device codename.

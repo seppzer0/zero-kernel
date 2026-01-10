@@ -5,16 +5,15 @@ import logging
 import requests
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseModel
 
 from zkb.tools import cleaning as cm, commands as ccmd
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class GithubApiClient(BaseModel):
+class GithubApiClient(ModelConfig):
     """Client for limited interaction with GitHub API.
 
     :param str project: GitHub project name (owner/repo).

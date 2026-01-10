@@ -4,10 +4,9 @@ import time
 import logging
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseModel
 
 from zkb.tools import cleaning as cm, commands as ccmd, fileoperations as fo, banner
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.managers import ResourceManager
 from zkb.interfaces import IKernelBuilder
 
@@ -15,7 +14,7 @@ from zkb.interfaces import IKernelBuilder
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class KernelBuilder(BaseModel, IKernelBuilder):
+class KernelBuilder(ModelConfig, IKernelBuilder):
     """Kernel builder.
 
     :param str codename: Device codename.
@@ -334,7 +333,7 @@ class KernelBuilder(BaseModel, IKernelBuilder):
 
         # base changes (Wi-Fi + RTL8812AU)
         extra_configs = [
-                #"CONFIG_88XXAU=y",
+                "CONFIG_88XXAU=y",
                 "CONFIG_MODULE_FORCE_LOAD=y",
                 "CONFIG_MODULE_FORCE_UNLOAD=y",
                 "CONFIG_CFG80211_WEXT=y",
@@ -343,6 +342,7 @@ class KernelBuilder(BaseModel, IKernelBuilder):
                 "CONFIG_MAC80211=y",
                 "CONFIG_RTL8187=y",
                 "CONFIG_RTLWIFI=y",
+                "CONFIG_RTL8187L=y",
             ]
 
         # KernelSU changes
@@ -501,6 +501,12 @@ class KernelBuilder(BaseModel, IKernelBuilder):
         os.chdir(self.rmanager.paths[self.codename])
 
         for pf in Path.cwd().glob("*.patch"):
+            # TODO: adjust exceptions after testing if needed
+            #exceptions = (
+            #    "fix-hci-uart.patch",
+            #    "fix-rt2800-injection-4.04.patch",
+            #)
+            #if pf not in exceptions:
             fo.apply_patch(pf)
 
         # add support for CONFIG_MAC80211 kernel option
@@ -523,7 +529,7 @@ class KernelBuilder(BaseModel, IKernelBuilder):
         if self.base == "pa":
             if self.lkv_src == "4.4":
                 self.patch_qcacld()
-            self.patch_ioctl()
+            #self.patch_ioctl()
 
         os.chdir(dcfg.root)
 

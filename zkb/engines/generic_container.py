@@ -3,19 +3,18 @@ import sys
 import shutil
 import logging
 from pathlib import Path
-from pydantic import BaseModel
 from typing import Optional, Literal
 from subprocess import CompletedProcess
 
 from zkb.tools import commands as ccmd
-from zkb.configs import DirectoryConfig as dcfg
+from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import IGenericContainerEngine
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class GenericContainerEngine(BaseModel, IGenericContainerEngine):
+class GenericContainerEngine(ModelConfig, IGenericContainerEngine):
     """Generic container engine for containerized builds.
 
     Note that here paths from DirectoryConfig are not used
