@@ -20,7 +20,7 @@ Backup should be made with removed lockscreen passwords/fingerprints/PINs. Other
 
 Listed below files are required:
 
-- compiled kernel, obviously;
+- the compiled kernel ZIP;
 - ROM;
 - Magisk or KernelSU;
 - TWRP, the special [build](https://sourceforge.net/projects/op5-5t/files/Android-12/TWRP/twrp-3.7.0_12-5-dyn-cheeseburger_dumpling.img/download) by faoliveira78 (supports operations with encrypted and dynamic partitions);
@@ -53,7 +53,7 @@ Before doing anything, please ensure that you have:
 - if using a Retrofit Dynamic Partitions ROM such as ParanoidAndoid -> untoggle `Unmount System before installing a ZIP` in the Settings;
 - flash the ROM;
 - flash the kernel;
-- **if using Magisk** --> flash Magisk root manager (you must change the `.apk` extension into `.zip` for this);
+- **if using Magisk** --> flash Magisk root manager (you can flash the .apk directly, it'll be processed as a ZIP);
 - flash DM-Verity and Force Encrypt disabler zip;
 - reboot into system via `Reboot -> System` .
 
@@ -67,7 +67,9 @@ Before doing anything, please ensure that you have:
 - open NetHunter app (if seeing a Busybox-related error, press "OK" and re-open the app);
 - navigate to the `Kali Chroot Manager` submenu and install the chroot (if you downloaded it beforehand, use the "restore" option);
 - make sure that your NetHunter and NetHunter Terminal apps are properly configured to see the installed chroot directory (by default it may be `/data/local/nhsystem/kalifs`; if you see it anywhere, change it to `/data/local/nhsystem/kali-arm64`);
-- in NetHunter Terminal app open `Kali` shell (if it opens properly, then congratulations, you have a working Kali NetHunter on your device).
+- in NetHunter Terminal app open `Kali` shell (if it opens properly, then congratulations, you have a working Kali NetHunter on your device);
+- unlock Developer Options in Settings;
+- toggle "Wi-Fi non-persistent MAC randomisation" option or similar.
 
 #### For KernelSU users
 
@@ -77,7 +79,9 @@ Before doing anything, please ensure that you have:
 - open the NetHunter app (if seeing a Busybox-related error, press "OK" and re-open the app);
 - navigate to the `Kali Chroot Manager` submenu and install the chroot (if you downloaded it beforehand, use the "restore" option);
 - make sure that your NetHunter and NetHunter Terminal apps are properly configured to see the installed chroot directory (by default it may be `/data/local/nhsystem/kalifs`; if you see it anywhere, change it to `/data/local/nhsystem/kali-arm64`);
-- in NetHunter Terminal app open `Kali` shell (if it opens properly, then congratulations, you have a working Kali NetHunter on your device).
+- in NetHunter Terminal app open `Kali` shell (if it opens properly, then congratulations, you have a working Kali NetHunter on your device);
+- unlock Developer Options in Settings;
+- toggle "Wi-Fi non-persistent MAC randomisation" option or similar.
 
 #### For x_kernel-based kernel + ParanoidAndroid users
 
