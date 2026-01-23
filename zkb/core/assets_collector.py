@@ -86,6 +86,10 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                     project="nfcgate/nfcgate",
                     file_filter=".apk"
                 ),
+                GithubApiClient(
+                    project="ImranR98/Obtainium",
+                    file_filter="app-arm64-v8a-release.apk"
+                ),
                 # files from direct URLs
                 "https://store.nethunter.com/NetHunter.apk",
                 "https://store.nethunter.com/NetHunterKeX.apk",
@@ -93,7 +97,7 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                 "https://store.nethunter.com/NetHunterTerminal.apk",
                 "https://sourceforge.net/projects/op5-5t/files/Android-12/TWRP/twrp-3.7.0_12-5-dyn-cheeseburger_dumpling.img/download",
                 "https://kali.download/nethunter-images/current/rootfs/kali-nethunter-rootfs-{}-arm64.tar.xz".format(self.chroot),
-                "https://github.com/mozilla-mobile/firefox-android/releases/download/fenix-v117.1.0/fenix-117.1.0-arm64-v8a.apk",
+                "https://ftp.mozilla.org/pub/fenix/releases/147.0.1/android/fenix-147.0.1-android-arm64-v8a/fenix-147.0.1.multi.android-arm64-v8a.apk",
                 "https://f-droid.org/F-Droid.apk",
             ]
 
@@ -115,7 +119,6 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
             if len(os.listdir(dcfg.assets)) != 0:
                 cmsg = f'[ ? ] Found an existing "{dcfg.assets.name}" folder, clean it? [Y/n]: '
                 ans = input(cmsg).lower() if not self.clean_assets else "y"
-
                 match ans:
                     case "y":
                         log.warning("Cleaning 'assets' directory..")
@@ -128,7 +131,6 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                     case _:
                         log.error("Invalid option selected.")
                         sys.exit(1)
-
         print("\n", end="")
 
     def run(self) -> None:
