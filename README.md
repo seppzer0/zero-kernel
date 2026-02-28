@@ -1,10 +1,10 @@
-# zero_kernel
+# zero-kernel
 
 An advanced Android kernel builder with assets collection and Kali NetHunter support.
 
 ## Contents
 
-- [zero\_kernel](#zero_kernel)
+- [zero-kernel](#zero-kernel)
   - [Contents](#contents)
   - [**Important**](#important)
   - [Description](#description)
