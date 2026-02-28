@@ -1,8 +1,11 @@
+from enum import EnumType
 import os
 import io
 import sys
 import json
+import logging
 import argparse
+from typing import Any
 from pathlib import Path
 from importlib.metadata import version
 
@@ -10,6 +13,7 @@ from pydantic.types import PastDate
 
 from zkb.core import KernelBuilder, AssetsCollector
 from zkb.tools import cleaning as cm, commands as ccmd, Logger as logger
+from zkb.enums import EnumChroot, EnumCommand, EnumEnvironment, EnumContainerEnvironment, EnumKernelBase, EnumPackageType
 from zkb.configs import ArgumentConfig, DirectoryConfig as dcfg
 from zkb.engines import GenericContainerEngine
 from zkb.commands import KernelCommand, AssetsCommand, BundleCommand
@@ -47,9 +51,9 @@ def parse_args() -> argparse.Namespace:
     # parser and subparsers
     parser_parent = argparse.ArgumentParser(description="Advanced Android kernel builder with Kali NetHunter support.")
     subparsers = parser_parent.add_subparsers(dest="command")
-    parser_kernel = subparsers.add_parser("kernel", help="build the kernel")
-    parser_assets = subparsers.add_parser("assets", help="collect assets")
-    parser_bundle = subparsers.add_parser("bundle", help="build the kernel + collect assets")
+    parser_kernel = subparsers.add_parser(EnumCommand.KERNEL.value, help="build the kernel")
+    parser_assets = subparsers.add_parser(EnumCommand.ASSETS.value, help="collect assets")
+    parser_bundle = subparsers.add_parser(EnumCommand.BUNDLE.value, help="build the kernel + collect assets")
 
     # main parser arguments
     parser_parent.add_argument(
@@ -74,9 +78,9 @@ def parse_args() -> argparse.Namespace:
         "name_or_flags": ("--build-env",),
         "config": {
             "required": True,
-            "dest": "build_env",
-            "type": str,
-            "choices": {"local", "docker", "podman"},
+            "dest": "benv",
+            "type": EnumEnvironment.from_string,
+            "choices": tuple(EnumEnvironment),
             "help": "build environment"
         }
     }
@@ -85,8 +89,8 @@ def parse_args() -> argparse.Namespace:
         "config": {
             "required": True,
             "dest": "base",
-            "type": str,
-            "choices": {"los", "pa", "x", "aosp"},
+            "type": EnumKernelBase.from_string,
+            "choices": tuple(EnumKernelBase),
             "help": "kernel source base"
         }
     }
@@ -150,7 +154,7 @@ def parse_args() -> argparse.Namespace:
         "--chroot",
         type=str,
         required=True,
-        choices=("full", "minimal"),
+        choices=EnumChroot,
         help="select Kali chroot type"
     )
     parser_assets.add_argument(
@@ -179,7 +183,7 @@ def parse_args() -> argparse.Namespace:
         type=str,
         required=True,
         dest="package_type",
-        choices={"conan", "slim", "full"},
+        choices=EnumPackageType,
         help="select package type of the bundle"
     )
     parser_bundle.add_argument(
@@ -194,6 +198,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     logger().get_logger()  # type: ignore
+    log = logging.getLogger("ZeroKernelLogger")
 
     # start preparing the environment
     os.chdir(dcfg.root)
@@ -209,16 +214,18 @@ def main() -> None:
     if args.command != "assets" and args.defconfig:
         args.defconfig = args.defconfig if args.defconfig.is_absolute() else Path.cwd() / args.defconfig
     arguments = vars(args)
+    log.debug(f"Arguments are: {arguments}")
+
     acfg = ArgumentConfig(**arguments)
     acfg.check_settings()
 
     # determine the build variation
     match args.benv:
-        case "docker" | "podman":
+        case EnumContainerEnvironment.DOCKER | EnumContainerEnvironment.PODMAN:
             with GenericContainerEngine(**json.loads(acfg.model_dump_json())) as engined_cmd:
                 ccmd.launch(engined_cmd)
 
-        case "local":
+        case EnumEnvironment.LOCAL:
             kernel_builder = KernelBuilder(
                 codename = args.codename,
                 base = args.base,
@@ -242,15 +249,15 @@ def main() -> None:
             )
 
             match args.command:
-                case "kernel":
+                case EnumCommand.KERNEL:
                     kc = KernelCommand(kernel_builder=kernel_builder)
                     kc.execute()
 
-                case "assets":
+                case EnumCommand.ASSETS:
                     ac = AssetsCommand(assets_collector=assets_collector)
                     ac.execute()
 
-                case "bundle":
+                case EnumCommand.BUNDLE:
                     bc = BundleCommand(
                         kernel_builder = kernel_builder,
                         assets_collector = assets_collector,

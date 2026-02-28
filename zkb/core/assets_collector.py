@@ -1,8 +1,9 @@
 import os
 import sys
 import logging
-from typing import Literal, Optional
+from typing import Optional
 
+from zkb.enums import EnumChroot, EnumKernelBase
 from zkb.tools import banner, fileoperations as fo, cleaning as cm
 from zkb.clients import GithubApiClient, LineageOsApiClient, ParanoidAndroidApiClient
 from zkb.configs import DirectoryConfig as dcfg, ModelConfig
@@ -17,14 +18,14 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
 
     :param str codename: Device codename.
     :param str base: Kernel source base.
-    :param Optional[Literal["full","minimal"]]=None chroot: Chroot type.
+    :param typing.Optional[zkb.enums.EnumChroot]=None chroot: Chroot type.
     :param bool rom_only: Flag indicating ROM-only asset collection.
     :param bool ksu: Flag indicating KernelSU support.
     """
 
     codename: str
     base: str
-    chroot: Optional[Literal["full", "minimal"]] = None
+    chroot: Optional[EnumChroot] = None
     clean_assets: bool
     rom_only: bool
     ksu: bool
@@ -32,11 +33,11 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
     @property
     def rom_collector_dto(self) -> LineageOsApiClient | ParanoidAndroidApiClient | None:
         match self.base:
-            case "los":
+            case EnumKernelBase.LOS:
                 return LineageOsApiClient(codename=self.codename, rom_only=self.rom_only)
-            case "pa":
+            case EnumKernelBase.PA:
                 return ParanoidAndroidApiClient(codename=self.codename, rom_only=self.rom_only)
-            case "x" | "aosp":
+            case EnumKernelBase.X | EnumKernelBase.AOSP:
                 # selected kernel base is ROM-universal, no specific ROM image will be collected
                 return None
 

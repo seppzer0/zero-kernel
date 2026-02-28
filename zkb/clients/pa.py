@@ -1,5 +1,6 @@
 from typing import override
 
+from zkb.enums import EnumKernelBase
 from zkb.clients.rom_api import RomApiClient
 
 
@@ -8,7 +9,7 @@ class ParanoidAndroidApiClient(RomApiClient):
 
     endpoint: str = "https://api.paranoidandroid.co/updates/{}"
     json_key: str = "updates"
-    rom_name: str = "PA"
+    rom_name: EnumKernelBase = EnumKernelBase.PA
 
     @override
     def map_codename(self) -> str:

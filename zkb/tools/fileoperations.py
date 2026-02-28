@@ -15,9 +15,9 @@ log = logging.getLogger("ZeroKernelLogger")
 def ucopy(src: Path, dst: Path, exceptions: Optional[tuple[str | Path, ...]] = ()) -> None:
     """Copy files and directories into desired destinations universally.
 
-    :param Path src: Source path.
-    :param Path dst: Destination path.
-    :param Optional[tuple[str/Path,...]]=() exceptions: Elements that will not be removed.
+    :param pathlib.Path src: Source path.
+    :param pathlib.Path dst: Destination path.
+    :param typing.Optional[tuple[str/pathlib.Path,...]]=() exceptions: Elements that will not be removed.
     :return: None
     """
     # for a directory (it's contents)
@@ -99,7 +99,7 @@ def replace_lines(filename: Path, og_lines: tuple[str, ...], nw_lines: tuple[str
 def replace_nth(filename: Path, og_string: str, nw_string: str, occurence: int) -> None:
     """Replace the n-th occurence of subtring in specified file.
 
-    :param Path filename: Path to the filename.
+    :param pathlib.Path filename: Path to the filename.
     :param str og_string: Original string to be replaced.
     :param str nw_string: New string used to replace the original one.
     :param int occurence: The index of occurence to replace.
@@ -124,7 +124,7 @@ def replace_nth(filename: Path, og_string: str, nw_string: str, occurence: int) 
 def insert_before_line(filename: str | Path, pointer_line: str, new_line: str) -> None:
     """Insert new line before the specified one.
 
-    :param str/Path filename: Name of the file.
+    :param str/pathlib.Path filename: Name of the file.
     :param str pointer_line: The line before which new line will be inserted.
     :param str new_line: The line being inserted.
     :return: None
@@ -149,7 +149,7 @@ def insert_before_line(filename: str | Path, pointer_line: str, new_line: str) -
 def apply_patch(filename: str | Path) -> None:
     """Apply .patch file.
 
-    :param str/Path filename: Name of the .patch file.
+    :param str/pathlib.Path filename: Name of the .patch file.
     :return: None
     """
     log.warning(f"Applying patch: {filename}")

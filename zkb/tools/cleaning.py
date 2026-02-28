@@ -15,7 +15,7 @@ def remove(elements: str | Path | list[Path | str]) -> None:
     Here, all Path() objects will have to be converted into str.
     Because of such specific as directories starting with a "." (e.g., .github).
 
-    :param str/Path/list[Path] elements: Files and/or directories to remove.
+    :param str/pathlib.Path/list[pathlib.Path] elements: Files and/or directories to remove.
     :return: None
     """
     # if a given argument is a string --> convert it into a one-element list
@@ -43,7 +43,7 @@ def on_rm_error(func, path: str, exc_info):
     """For Windows system to remove a .git folder.
 
     :param func: Function to be used along with.
-    :param Path path: Path that is being removed.
+    :param pathlib.Path path: Path that is being removed.
     :exc_info param: Misc info.
     """
     os.chmod(path, stat.S_IWRITE)
@@ -53,7 +53,7 @@ def on_rm_error(func, path: str, exc_info):
 def git(directory: Path | str) -> None:
     """Clean up a git directory.
 
-    :param Path/str directory: Path to the directory.
+    :param pathlib.Path/str directory: Path to the directory.
     """
     goback = Path.cwd()
 
@@ -66,7 +66,7 @@ def git(directory: Path | str) -> None:
 def root(extra: Optional[list[str]] = []) -> None:
     """Fully clean the root directory.
 
-    :param Optional[list[str]]=[] extra: Extra elements to be removed.
+    :param typing.Optional[list[str]]=[] extra: Extra elements to be removed.
     """
     trsh = [
         dcfg.kernel,

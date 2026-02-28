@@ -4,9 +4,10 @@ import shutil
 import logging
 import itertools
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Optional, Iterable
 
 from zkb.core import KernelBuilder, AssetsCollector
+from zkb.enums import EnumPackageType
 from zkb.tools import cleaning as cm, commands as ccmd, fileoperations as fo
 from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import ICommand
@@ -18,30 +19,30 @@ log = logging.getLogger("ZeroKernelLogger")
 class BundleCommand(ModelConfig, ICommand):
     """Command that packages the artifacts produced both by 'kernel_builder' and 'assets_collector' core modules.
 
-    :param builder.core.KernelBuilder kernel_builder: Kernel builder object.
-    :param builder.core.AssetsCollector assets_collector: Assets collector object.
+    :param zkb.core.KernelBuilder kernel_builder: Kernel builder object.
+    :param zkb.core.AssetsCollector assets_collector: Assets collector object.
     :param str package_type: Package type.
     :param str base: ROM base for the kernel.
     """
 
     kernel_builder: KernelBuilder
     assets_collector: AssetsCollector
-    package_type: str
+    package_type: Iterable[EnumPackageType]
     base: str
 
-    def build_kernel(self, rom_name: str, clean_only: Optional[bool] = False) -> None:
+    def build_kernel(self, clean_only: Optional[bool] = False) -> None:
         if not dcfg.kernel.is_dir() or clean_only is True:
             self.kernel_builder.clean_kernel = clean_only  # type: ignore
 
             self.kernel_builder.run()
 
     @property
-    def _rom_only_flag(self) -> bool:
-        return True if "full" not in self.package_type else False
+    def __rom_only_flag(self) -> bool:
+        return True if EnumPackageType.FULL not in self.package_type else False
 
-    def collect_assets(self, rom_name: str, chroot: Literal["full", "minimal"]) -> None:
+    def collect_assets(self) -> None:
         self.assets_collector.clean_assets = True
-        self.assets_collector.rom_only = self._rom_only_flag
+        self.assets_collector.rom_only = self.__rom_only_flag
 
         self.assets_collector.run()
 
@@ -107,11 +108,11 @@ class BundleCommand(ModelConfig, ICommand):
 
         # determine the bundle type and process it
         match self.package_type:
-            case "slim" | "full":
-                self.build_kernel(self.base)
+            case EnumPackageType.FULL | EnumPackageType.SLIM:
+                self.build_kernel()
 
                 # "full" chroot is hardcoded here
-                self.collect_assets(self.base, "full")
+                self.collect_assets()
 
                 # clean up
                 if dcfg.bundle.is_dir():
@@ -130,7 +131,7 @@ class BundleCommand(ModelConfig, ICommand):
                     # here, because of their size assets are moved and not copied
                     shutil.move(dcfg.assets / afn, dcfg.bundle / afn)
 
-            case "conan":
+            case EnumPackageType.CONAN:
                 # form Conan reference
                 name = "zero_kernel"
                 version = os.getenv("KVERSION")
@@ -150,10 +151,10 @@ class BundleCommand(ModelConfig, ICommand):
 
                 # build and upload Conan packages
                 for opset in option_sets:
-                    self.build_kernel(opset[0])
-                    self.build_kernel(opset[0], True)
+                    self.build_kernel()
+                    self.build_kernel(True)
                     self.conan_sources()
-                    self.collect_assets(opset[0], opset[1])
+                    self.collect_assets()
                     self.conan_package(opset, reference)
 
                 # upload packages

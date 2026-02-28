@@ -3,41 +3,44 @@ import json
 import logging
 import platform
 from pathlib import Path
-from typing import Optional, Literal
+from typing import Optional
+from pydantic import BaseModel
 
+from zkb.enums import EnumEnvironment, EnumCommand, EnumPackageType
 from zkb.tools import commands as ccmd
-from zkb.configs import ModelConfig
 
 
 log = logging.getLogger("ZeroKernelLogger")
 
 
-class ArgumentConfig(ModelConfig):
+class ArgumentConfig(BaseModel):
     """Variable storage for usage across the app.
 
-    :param Literal["docker","podman","local"] benv: Build environment.
-    :param Literal["kernel","assets","bundle"] command: Builder command to be launched.
+    Only model not using shared ModelConfig.
+
+    :param zkb.enums.EnumEnvironment benv: Build environment.
+    :param zkb.enums.EnumCommand command: Builder command to be launched.
     :param str codename: Device codename.
     :param str base: Kernel source base.
     :param str lkv: Linux kernel version.
-    :param Optional[str]=None chroot: Chroot type.
-    :param Optional[str]=None package_type: Package type.
-    :param Optional[bool]=False clean_kernel: Flag to clean folder with kernel sources.
-    :param Optional[bool]=False clean_assets: Flag to clean folder for assets storage.
-    :param Optional[bool]=False clean_image: Flag to clean a Docker/Podman image from local cache.
-    :param Optional[bool]=False rom_only: Flag indicating ROM-only asset collection.
-    :param Optional[bool]=False conan_upload: Flag to enable Conan upload.
-    :param Optional[bool]=False ksu: Flag indicating KernelSU support.
-    :param Optional[Path]=None defconfig: Path to custom defconfig.
+    :param typing.Optional[str]=None chroot: Chroot type.
+    :param typing.Optional[str]=None package_type: Package type.
+    :param typing.Optional[bool]=False clean_kernel: Flag to clean folder with kernel sources.
+    :param typing.Optional[bool]=False clean_assets: Flag to clean folder for assets storage.
+    :param typing.Optional[bool]=False clean_image: Flag to clean a Docker/Podman image from local cache.
+    :param typing.Optional[bool]=False rom_only: Flag indicating ROM-only asset collection.
+    :param typing.Optional[bool]=False conan_upload: Flag to enable Conan upload.
+    :param typing.Optional[bool]=False ksu: Flag indicating KernelSU support.
+    :param typing.Optional[Path]=None defconfig: Path to custom defconfig.
     """
 
-    benv: Literal["docker", "podman", "local"]
-    command: Literal["kernel", "assets", "bundle"]
+    benv: EnumEnvironment
+    command: EnumCommand
     codename: str
     base: str
     lkv: Optional[str] = None
     chroot: Optional[str] = None
-    package_type: Optional[str] = None
+    package_type: Optional[EnumPackageType] = None
     clean_kernel: Optional[bool] = False
     clean_assets: Optional[bool] = False
     clean_image: Optional[bool] = False
@@ -52,7 +55,7 @@ class ArgumentConfig(ModelConfig):
         :return: None
         """
         # allow only asset colletion on a non-Linux machine
-        if self.benv == "local" and self.command in {"kernel", "bundle"}:
+        if self.benv == EnumEnvironment.LOCAL and self.command in {EnumCommand.KERNEL, EnumCommand.BUNDLE}:
             if not platform.system() == "Linux":
                 log.error("Can't build kernel on a non-Linux machine.")
                 sys.exit(1)
@@ -73,9 +76,9 @@ class ArgumentConfig(ModelConfig):
         if self.codename not in devices.keys():
             log.error("Unsupported device codename specified.")
             sys.exit(1)
-        if self.command == "bundle":
+        if self.command == EnumCommand.BUNDLE:
             # check Conan-related argument usage
-            if self.package_type != "conan" and self.conan_upload:
+            if self.package_type != EnumPackageType.CONAN and self.conan_upload:
                 log.error("Cannot use Conan-related arguments with non-Conan packaging\n")
                 sys.exit(1)
 

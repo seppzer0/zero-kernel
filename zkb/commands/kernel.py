@@ -12,7 +12,7 @@ log = logging.getLogger("ZeroKernelLogger")
 class KernelCommand(ModelConfig, ICommand):
     """Command responsible for launching the 'kernel_builder' core module directly.
 
-    :param builder.core.KernelBuilder kernel_builder: Kernel builder object.
+    :param zkb.core.KernelBuilder kernel_builder: Kernel builder object.
     """
 
     kernel_builder: KernelBuilder

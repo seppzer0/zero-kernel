@@ -10,6 +10,7 @@ import logging
 import argparse
 
 from zkb.core import KernelBuilder, AssetsCollector
+from zkb.enums import EnumCommand, EnumPackageType, EnumChroot
 from zkb.managers import ResourceManager
 from zkb.commands import KernelCommand, AssetsCommand, BundleCommand
 
@@ -35,8 +36,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--command",
+        type=EnumCommand.from_string,
         help="select builder command",
-        choices={"kernel", "assets", "bundle"}
+        choices=tuple(EnumCommand)
     )
     parser.add_argument(
         "--codename",
@@ -52,14 +54,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--chroot",
+        type=EnumChroot.from_string,
+        choices=tuple(EnumChroot),
         help="select chroot type",
-        choices={"full", "minimal"}
     )
     parser.add_argument(
         "--package-type",
         dest="package_type",
-        help="select bundle packaging type",
-        choices={"conan", "slim", "full"}
+        type=EnumPackageType.from_string,
+        choices=tuple(EnumPackageType),
+        help="select bundle packaging type"
     )
     parser.add_argument(
         "--clean-kernel",
@@ -99,10 +103,8 @@ def parse_args() -> argparse.Namespace:
 
 
 def main(args: argparse.Namespace) -> None:
-
     match args.command:
-
-        case "kernel":
+        case EnumCommand.KERNEL:
             kernel_builder = KernelBuilder(
                 codename = args.codename,
                 base = args.base,
@@ -119,7 +121,7 @@ def main(args: argparse.Namespace) -> None:
             kc = KernelCommand(kernel_builder=kernel_builder)
             kc.execute()
 
-        case "assets":
+        case EnumCommand.ASSETS:
             assets_collector = AssetsCollector(
                 codename = args.codename,
                 base = args.base,
@@ -131,7 +133,7 @@ def main(args: argparse.Namespace) -> None:
             ac = AssetsCommand(assets_collector=assets_collector)
             ac.execute()
 
-        case "bundle":
+        case EnumCommand.BUNDLE:
             kernel_builder = KernelBuilder(
                 codename = args.codename,
                 base = args.base,

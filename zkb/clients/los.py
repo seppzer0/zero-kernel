@@ -1,3 +1,4 @@
+from zkb.enums import EnumKernelBase
 from zkb.clients.rom_api import RomApiClient
 
 
@@ -6,4 +7,4 @@ class LineageOsApiClient(RomApiClient):
 
     endpoint: str = "https://download.lineageos.org/api/v1/{}/nightly/ro.build.version.incremental"
     json_key: str = "response"
-    rom_name: str = "LOS"
+    rom_name: EnumKernelBase = EnumKernelBase.LOS
