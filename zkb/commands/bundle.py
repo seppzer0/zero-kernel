@@ -133,7 +133,7 @@ class BundleCommand(ModelConfig, ICommand):
 
             case EnumPackageType.CONAN:
                 # form Conan reference
-                name = "zero_kernel"
+                name = "zero-kernel"
                 version = os.getenv("KVERSION")
                 user = self.kernel_builder.codename
                 channel = ""

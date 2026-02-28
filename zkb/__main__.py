@@ -28,7 +28,7 @@ def __get_version() -> str:
     :return: App version.
     :rtype: str
     """
-    msg = "zero_kernel {}"
+    msg = "zero-kernel {}"
 
     try:
         return msg.format(version("zero-kernel"))

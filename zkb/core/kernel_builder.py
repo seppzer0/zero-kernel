@@ -36,7 +36,7 @@ class KernelBuilder(ModelConfig, IKernelBuilder):
     @staticmethod
     def write_localversion() -> None:
         with open("localversion", "w", encoding="utf-8") as f:
-            f.write("~zero_kernel")
+            f.write("~zero-kernel")
 
     @property
     def _ucodename(self) -> str:
