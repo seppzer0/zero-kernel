@@ -6,6 +6,9 @@ package "configs.argument" as configs.argument {
 }
 package "configs.directory" as configs.directory {
 }
+package "configs.model" as configs.model {
+}
 configs --> configs.argument
 configs --> configs.directory
+configs --> configs.model
 @enduml

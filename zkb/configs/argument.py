@@ -31,7 +31,7 @@ class ArgumentConfig(BaseModel):
     :param typing.Optional[bool]=False rom_only: Flag indicating ROM-only asset collection.
     :param typing.Optional[bool]=False conan_upload: Flag to enable Conan upload.
     :param typing.Optional[bool]=False ksu: Flag indicating KernelSU support.
-    :param typing.Optional[Path]=None defconfig: Path to custom defconfig.
+    :param typing.Optional[pathlib.Path]=None defconfig: Path to custom defconfig.
     """
 
     benv: EnumEnvironment
