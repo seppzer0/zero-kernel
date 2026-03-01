@@ -8,8 +8,6 @@ from typing import Any
 from pathlib import Path
 from importlib.metadata import version
 
-from pydantic.types import PastDate
-
 from zkb.core import KernelBuilder, AssetsCollector
 from zkb.tools import cleaning as cm, commands as ccmd, Logger as logger
 from zkb.enums import EnumChroot, EnumCommand, EnumEnvironment, EnumContainerEnvironment, EnumKernelBase, EnumPackageType
