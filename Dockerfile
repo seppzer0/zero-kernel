@@ -34,7 +34,7 @@ RUN \
 # This significantly reduces the total build time, as each time we make a build call for a device,
 # only device-specific kernel source is being downloaded into the container.
 #
-RUN curl -LsSf https://astral.sh/uv/$(cat ./requirement-uv.txt | awk -F'==' '{print $2}' | tr -d ' \n')/install.sh | sh && \
+RUN curl -LsSf https://astral.sh/uv/$(cat ./uv-version.txt | tr -d ' \n')/install.sh | sh && \
     . $HOME/.local/bin/env && \
     uv sync --frozen --no-install-project && \
     uv run ${WDIR}/zkb/utils/bridge.py --shared

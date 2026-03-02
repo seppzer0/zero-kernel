@@ -123,7 +123,7 @@ To run this tool in a `local` environment, you will need:
 
 ```sh
 # install uv version from project file
-python3 -m pip install -r requirement-uv.txt
+python3 -m pip install uv==$(cat ./uv-version.txt | tr -d ' \n')
 # make zkb/ internal imports visible to itself
 export PYTHONPATH=$(pwd)
 # prepare and activate dev environment
