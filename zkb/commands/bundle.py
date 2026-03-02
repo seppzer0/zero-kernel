@@ -3,8 +3,7 @@ import json
 import shutil
 import logging
 import itertools
-from pathlib import Path
-from typing import Optional, Iterable
+from typing import Optional
 
 from zkb.core import KernelBuilder, AssetsCollector
 from zkb.enums import EnumPackageType
@@ -27,7 +26,7 @@ class BundleCommand(ModelConfig, ICommand):
 
     kernel_builder: KernelBuilder
     assets_collector: AssetsCollector
-    package_type: Iterable[EnumPackageType]
+    package_type: EnumPackageType
     base: str
 
     def build_kernel(self, clean_only: Optional[bool] = False) -> None:
@@ -38,7 +37,7 @@ class BundleCommand(ModelConfig, ICommand):
 
     @property
     def __rom_only_flag(self) -> bool:
-        return True if EnumPackageType.FULL not in self.package_type else False
+        return True if self.package_type != EnumPackageType.FULL else False
 
     def collect_assets(self) -> None:
         self.assets_collector.clean_assets = True
