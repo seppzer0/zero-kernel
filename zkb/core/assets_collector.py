@@ -1,8 +1,9 @@
 import os
 import sys
 import logging
-from typing import Literal, Optional
+from typing import Optional
 
+from zkb.enums import EnumChroot, EnumKernelBase
 from zkb.tools import banner, fileoperations as fo, cleaning as cm
 from zkb.clients import GithubApiClient, LineageOsApiClient, ParanoidAndroidApiClient
 from zkb.configs import DirectoryConfig as dcfg, ModelConfig
@@ -17,14 +18,14 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
 
     :param str codename: Device codename.
     :param str base: Kernel source base.
-    :param Optional[Literal["full","minimal"]]=None chroot: Chroot type.
+    :param typing.Optional[zkb.enums.EnumChroot]=None chroot: Chroot type.
     :param bool rom_only: Flag indicating ROM-only asset collection.
     :param bool ksu: Flag indicating KernelSU support.
     """
 
     codename: str
     base: str
-    chroot: Optional[Literal["full", "minimal"]] = None
+    chroot: Optional[EnumChroot] = None
     clean_assets: bool
     rom_only: bool
     ksu: bool
@@ -32,11 +33,11 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
     @property
     def rom_collector_dto(self) -> LineageOsApiClient | ParanoidAndroidApiClient | None:
         match self.base:
-            case "los":
+            case EnumKernelBase.LOS:
                 return LineageOsApiClient(codename=self.codename, rom_only=self.rom_only)
-            case "pa":
+            case EnumKernelBase.PA:
                 return ParanoidAndroidApiClient(codename=self.codename, rom_only=self.rom_only)
-            case "x" | "aosp":
+            case EnumKernelBase.X | EnumKernelBase.AOSP:
                 # selected kernel base is ROM-universal, no specific ROM image will be collected
                 return None
 
@@ -86,6 +87,10 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                     project="nfcgate/nfcgate",
                     file_filter=".apk"
                 ),
+                GithubApiClient(
+                    project="ImranR98/Obtainium",
+                    file_filter="app-arm64-v8a-release.apk"
+                ),
                 # files from direct URLs
                 "https://store.nethunter.com/NetHunter.apk",
                 "https://store.nethunter.com/NetHunterKeX.apk",
@@ -93,7 +98,7 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                 "https://store.nethunter.com/NetHunterTerminal.apk",
                 "https://sourceforge.net/projects/op5-5t/files/Android-12/TWRP/twrp-3.7.0_12-5-dyn-cheeseburger_dumpling.img/download",
                 "https://kali.download/nethunter-images/current/rootfs/kali-nethunter-rootfs-{}-arm64.tar.xz".format(self.chroot),
-                "https://github.com/mozilla-mobile/firefox-android/releases/download/fenix-v117.1.0/fenix-117.1.0-arm64-v8a.apk",
+                "https://ftp.mozilla.org/pub/fenix/releases/147.0.1/android/fenix-147.0.1-android-arm64-v8a/fenix-147.0.1.multi.android-arm64-v8a.apk",
                 "https://f-droid.org/F-Droid.apk",
             ]
 
@@ -115,7 +120,6 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
             if len(os.listdir(dcfg.assets)) != 0:
                 cmsg = f'[ ? ] Found an existing "{dcfg.assets.name}" folder, clean it? [Y/n]: '
                 ans = input(cmsg).lower() if not self.clean_assets else "y"
-
                 match ans:
                     case "y":
                         log.warning("Cleaning 'assets' directory..")
@@ -128,7 +132,6 @@ class AssetsCollector(ModelConfig, IAssetsCollector):
                     case _:
                         log.error("Invalid option selected.")
                         sys.exit(1)
-
         print("\n", end="")
 
     def run(self) -> None:

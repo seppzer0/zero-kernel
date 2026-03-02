@@ -17,14 +17,14 @@ class GithubApiClient(ModelConfig):
     """Client for limited interaction with GitHub API.
 
     :param str project: GitHub project name (owner/repo).
-    :param Optional[str]=None file_filter: A filter to select specific files from project's artifacts.
+    :param typing.Optional[str]=None file_filter: A filter to select specific files from project's artifacts.
     """
 
     project: str
     file_filter: Optional[str] = None
 
     @property
-    def endpoint(self) -> str:
+    def __releases_endpoint(self) -> str:
         """Formatted endpoint.
 
         :return: GitHub API endpoint for specified project's latest release.
@@ -33,7 +33,7 @@ class GithubApiClient(ModelConfig):
         return f"https://api.github.com/repos/{self.project}/releases/latest"
 
     @property
-    def direct_url(self) -> str:
+    def __direct_url(self) -> str:
         """Direct URL to GitHub project.
 
         :return: URL to GitHub project.
@@ -47,7 +47,7 @@ class GithubApiClient(ModelConfig):
         :return: URL to download release artifact from if applicable.
         :rtype: str | None
         """
-        response = requests.get(self.endpoint).json()
+        response = requests.get(self.__releases_endpoint).json()
 
         # check whether the GitHub API usage is exceeded
         try:
@@ -81,12 +81,12 @@ class GithubApiClient(ModelConfig):
             # if not available via API -- use regular "git clone"
             log.warning(f"Non-API GitHub resolution for {self.project}")
 
-            rdir = Path(dcfg.assets, self.direct_url.rsplit("/", 1)[1])
+            rdir = Path(dcfg.assets, self.__direct_url.rsplit("/", 1)[1])
 
             cm.remove(rdir)
             ccmd.launch(
                 "git clone --depth 1 --remote-submodules --recurse-submodules --shallow-submodules {} {}"
-                .format(self.direct_url, rdir)
+                .format(self.__direct_url, rdir)
             )
             os.chdir(rdir)
             cm.remove(".git*")

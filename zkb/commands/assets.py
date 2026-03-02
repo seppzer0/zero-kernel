@@ -13,7 +13,7 @@ log = logging.getLogger("ZeroKernelLogger")
 class AssetsCommand(ModelConfig, ICommand):
     """Command responsible for launching the 'assets_collector' core module directly.
 
-    :param builder.core.AssetsCollector assets_collector: Assets collector object.
+    :param zkb.core.AssetsCollector assets_collector: Assets collector object.
     """
 
     assets_collector: AssetsCollector

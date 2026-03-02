@@ -17,9 +17,9 @@ log = logging.getLogger("ZeroKernelLogger")
 class ResourceManager(ModelConfig, IResourceManager):
     """Build resource manager.
 
-    :param Optional[str]=None codename: Device codename.
-    :param Optional[str]=None base: Kernel source base.
-    :param Optional[str]=None lkv: Linux kernel version.
+    :param typing.Optional[str]=None codename: Device codename.
+    :param typing.Optional[str]=None base: Kernel source base.
+    :param typing.Optional[str]=None lkv: Linux kernel version.
     """
 
     _data: dict[str, dict[str, str]] = {}

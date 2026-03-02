@@ -32,7 +32,7 @@ jobs:
 
       - name: Install UV
         run: |
-          UV_VERSION=$(cat ./requirement-uv.txt | awk -F'==' '{print $2}' | tr -d ' \n')
+          UV_VERSION=$(cat ./uv-version.txt | tr -d ' \n')
           curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
 
       - name: Record original PATH
@@ -80,7 +80,7 @@ jobs:
 
       - name: Install UV
         run: |
-          UV_VERSION=$(cat ./requirement-uv.txt | awk -F'==' '{print $2}' | tr -d ' \n')
+          UV_VERSION=$(cat ./uv-version.txt | tr -d ' \n')
           curl -LsSf https://astral.sh/uv/${UV_VERSION}/install.sh | sh
 
       - name: Get Current Version

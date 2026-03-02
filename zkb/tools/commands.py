@@ -17,8 +17,8 @@ def launch(
     """Custom subprocess wrapper to launch commands.
 
     :param str cmd: Command to launch.
-    :param Optional[bool]=False get_output: Switch to get the piped output of the command.
-    :param str loglvl: Log level.
+    :param typing.Optional[bool]=False get_output: Switch to get the piped output of the command.
+    :param typing.Optional[Literal["normal", "quiet"]] loglvl: Log level.
     :return: Result of command launch.
     :rtype: str | CompletedProcess | None
     """

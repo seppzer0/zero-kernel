@@ -1,14 +1,14 @@
 [project]
 name = "zero-kernel-builder"
-version = "0.6.4"
+version = "0.6.5"
 description = "Advanced Android kernel builder with Kali NetHunter support."
 authors = [{name = "seppzer0"}]
 readme = "README.md"
 requires-python = ">=3.12"
 
 [project.urls]
-Repository = "https://github.com/seppzer0/zero_kernel"
-Documentation = "https://github.com/seppzer0/zero_kernel/blob/main/README.md"
+Repository = "https://github.com/seppzer0/zero-kernel"
+Documentation = "https://github.com/seppzer0/zero-kernel/blob/main/README.md"
 
 [project.scripts]
 zkb = "zkb.__main__:main"

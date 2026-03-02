@@ -40,7 +40,6 @@ class Logger:
         self.logger.propagate = False
 
         if not self.logger.handlers:
-            #formatter = logging.Formatter("[%(asctime)s] [%(levelname).1s] %(message)s")
             formatter = self._get_coloured_formatter()
 
             # direct DEBUG and INFO to stdout; WARNING, ERROR and CRITICAL to stderr

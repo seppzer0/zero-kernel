@@ -28,8 +28,8 @@ def parse_args() -> argparse.Namespace:
 def rmove(src: Path, dst: Path) -> None:
     """Recursively move files from one directory to another.
 
-    :param Path src: Source path.
-    :param Path dst: Destination path.
+    :param pathlib.Path src: Source path.
+    :param pathlib.Path dst: Destination path.
     :return: None
     """
     # for a directory

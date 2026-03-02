@@ -3,7 +3,7 @@ set namespaceSeparator none
 class "AssetsCollector" as core.assets_collector.AssetsCollector {
   assets : list
   base : str
-  chroot : Optional[Literal['full', 'minimal']]
+  chroot : Optional[EnumChroot]
   clean_assets : bool
   codename : str
   ksu : bool
@@ -20,7 +20,7 @@ class "KernelBuilder" as core.kernel_builder.KernelBuilder {
   ksu : bool
   lkv : str
   lkv_src : str
-  rmanager : ResourceManager
+  rmanager
   build() -> None
   clean_build() -> None
   create_zip() -> None

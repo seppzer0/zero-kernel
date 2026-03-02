@@ -1,4 +1,4 @@
-# basic
+# general
 __pycache__
 /dist
 .venv
@@ -8,7 +8,10 @@ __pycache__
 .ruff_cache
 .ropeproject
 
-# git subrepos
+# misc
+.DS_Store
+
+# subrepos
 /android_*
 /*_kernel_*
 /clang*
@@ -16,7 +19,7 @@ __pycache__
 /AnyKernel3
 /KernelSU
 
-# misc local artifacts
+# local artifacts
 /*.log
 /kernel
 /assets

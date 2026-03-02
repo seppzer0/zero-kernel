@@ -2,14 +2,14 @@
 set namespaceSeparator none
 class "GenericContainerEngine" as engines.generic_container.GenericContainerEngine {
   base : str
-  benv : Literal['docker', 'podman']
+  benv
   builder_cmd : str
-  chroot : Optional[Literal['full', 'minimal']]
+  chroot : Optional[EnumChroot]
   clean_assets : Optional[bool]
   clean_image : Optional[bool]
   clean_kernel : Optional[bool]
   codename : str
-  command : Literal['kernel', 'assets', 'bundle']
+  command
   conan_upload : Optional[bool]
   container_options : list[str]
   defconfig : Optional[Path]

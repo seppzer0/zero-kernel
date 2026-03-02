@@ -6,7 +6,7 @@ class ZeroKernelConan(ConanFile):
     author = "seppzer0"
     url = "https://gitlab.com/api/v4/projects/40803264/packages/conan"
     description = "An advanced Android kernel builder with Kali NetHunter support."
-    topics = ("zero_kernel", "kali-nethunter", "nethunter")
+    topics = ("zero-kernel", "kali-nethunter", "nethunter")
     settings = None
     options = {
         "base": {"los", "pa", "x", "aosp"},
