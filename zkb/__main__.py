@@ -76,7 +76,7 @@ def parse_args() -> argparse.Namespace:
         "config": {
             "required": True,
             "dest": "benv",
-            "type": EnumEnvironment.from_string,
+            "type": EnumEnvironment,
             "choices": tuple(EnumEnvironment),
             "help": "build environment"
         }
@@ -86,7 +86,7 @@ def parse_args() -> argparse.Namespace:
         "config": {
             "required": True,
             "dest": "base",
-            "type": EnumKernelBase.from_string,
+            "type": EnumKernelBase,
             "choices": tuple(EnumKernelBase),
             "help": "kernel source base"
         }
@@ -177,10 +177,10 @@ def parse_args() -> argparse.Namespace:
     parser_bundle.add_argument(*common_clean_image["name_or_flags"], **common_clean_image["config"])
     parser_bundle.add_argument(
         "--package-type",
-        type=str,
+        type=EnumPackageType,
         required=True,
         dest="package_type",
-        choices=EnumPackageType,
+        choices=tuple(EnumPackageType),
         help="select package type of the bundle"
     )
     parser_bundle.add_argument(

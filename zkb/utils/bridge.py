@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--command",
-        type=EnumCommand.from_string,
+        type=EnumCommand,
         help="select builder command",
         choices=tuple(EnumCommand)
     )
@@ -54,14 +54,14 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--chroot",
-        type=EnumChroot.from_string,
+        type=EnumChroot,
         choices=tuple(EnumChroot),
         help="select chroot type",
     )
     parser.add_argument(
         "--package-type",
         dest="package_type",
-        type=EnumPackageType.from_string,
+        type=EnumPackageType,
         choices=tuple(EnumPackageType),
         help="select bundle packaging type"
     )

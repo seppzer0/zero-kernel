@@ -1,29 +1,21 @@
 from enum import Enum
 
 
-class EnumChroot(Enum):
+class EnumChroot(str, Enum):
     FULL = "full"
     MINIMAL = "minimal"
 
-    @staticmethod
-    def from_string(s):
-        try:
-            return EnumCommand[s]
-        except KeyError:
-            raise ValueError()
+    def __str__(self):
+        return self.value
 
 
-class EnumCommand(Enum):
+class EnumCommand(str, Enum):
     KERNEL = "kernel"
     ASSETS = "assets"
     BUNDLE = "bundle"
 
-    @staticmethod
-    def from_string(s):
-        try:
-            return EnumCommand[s]
-        except KeyError:
-            raise ValueError()
+    def __str__(self):
+        return self.value
 
 
 class EnumContainerEnvironment(Enum):
@@ -31,41 +23,29 @@ class EnumContainerEnvironment(Enum):
     PODMAN = "podman"
 
 
-class EnumEnvironment(Enum):
+class EnumEnvironment(str, Enum):
     LOCAL = "local"
     DOCKER = "docker"
     PODMAN = "podman"
 
-    @staticmethod
-    def from_string(s):
-        try:
-            return EnumCommand[s]
-        except KeyError:
-            raise ValueError()
+    def __str__(self):
+        return self.value
 
 
-class EnumPackageType(Enum):
+class EnumPackageType(str, Enum):
     CONAN = "conan"
     SLIM = "slim"
     FULL = "full"
 
-    @staticmethod
-    def from_string(s):
-        try:
-            return EnumCommand[s]
-        except KeyError:
-            raise ValueError()
+    def __str__(self):
+        return self.value
 
 
-class EnumKernelBase(Enum):
+class EnumKernelBase(str, Enum):
     LOS = "los"
     PA = "pa"
     X = "x"
     AOSP = "aosp"
 
-    @staticmethod
-    def from_string(s):
-        try:
-            return EnumCommand[s]
-        except KeyError:
-            raise ValueError()
+    def __str__(self):
+        return self.value
