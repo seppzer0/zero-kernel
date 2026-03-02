@@ -30,7 +30,7 @@ class GenericContainerEngine(ModelConfig, IGenericContainerEngine):
     :param str base: Kernel source base.
     :param str lkv: Linux kernel version.
     :param typing.Optional[zkb.enums.EnumChroot]=None chroot: Chroot type.
-    :param typing.Optional[bool]=False package_type: Package type.
+    :param typing.Optional[zkb.enums.EnumPackageType]=False package_type: Package type.
     :param typing.Optional[bool]=False clean_kernel: Flag to clean folder for kernel storage.
     :param typing.Optional[bool]=False clean_assets: Flag to clean folder for assets storage.
     :param typing.Optional[bool]=False clean_image: Flag to clean a Docker/Podman image from local cache.
@@ -51,7 +51,7 @@ class GenericContainerEngine(ModelConfig, IGenericContainerEngine):
     base: str
     lkv: Optional[str] = None
     chroot: Optional[EnumChroot] = None
-    package_type: Optional[str] = None
+    package_type: Optional[EnumPackageType] = None
     clean_kernel: Optional[bool] = False
     clean_assets: Optional[bool] = False
     clean_image: Optional[bool] = False
