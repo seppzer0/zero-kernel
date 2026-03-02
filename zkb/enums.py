@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class EnumChroot(str, Enum):
+class EnumChroot(Enum):
     FULL = "full"
     MINIMAL = "minimal"
 
@@ -9,7 +9,7 @@ class EnumChroot(str, Enum):
         return self.value
 
 
-class EnumCommand(str, Enum):
+class EnumCommand(Enum):
     KERNEL = "kernel"
     ASSETS = "assets"
     BUNDLE = "bundle"
@@ -18,12 +18,7 @@ class EnumCommand(str, Enum):
         return self.value
 
 
-class EnumContainerEnvironment(Enum):
-    DOCKER = "docker"
-    PODMAN = "podman"
-
-
-class EnumEnvironment(str, Enum):
+class EnumEnvironment(Enum):
     LOCAL = "local"
     DOCKER = "docker"
     PODMAN = "podman"
@@ -32,7 +27,7 @@ class EnumEnvironment(str, Enum):
         return self.value
 
 
-class EnumPackageType(str, Enum):
+class EnumPackageType(Enum):
     CONAN = "conan"
     SLIM = "slim"
     FULL = "full"
@@ -41,7 +36,7 @@ class EnumPackageType(str, Enum):
         return self.value
 
 
-class EnumKernelBase(str, Enum):
+class EnumKernelBase(Enum):
     LOS = "los"
     PA = "pa"
     X = "x"

@@ -10,7 +10,7 @@ from importlib.metadata import version
 
 from zkb.core import KernelBuilder, AssetsCollector
 from zkb.tools import cleaning as cm, commands as ccmd, Logger as logger
-from zkb.enums import EnumChroot, EnumCommand, EnumEnvironment, EnumContainerEnvironment, EnumKernelBase, EnumPackageType
+from zkb.enums import EnumChroot, EnumCommand, EnumEnvironment, EnumKernelBase, EnumPackageType
 from zkb.configs import ArgumentConfig, DirectoryConfig as dcfg
 from zkb.engines import GenericContainerEngine
 from zkb.commands import KernelCommand, AssetsCommand, BundleCommand
@@ -218,7 +218,7 @@ def main() -> None:
 
     # determine the build variation
     match args.benv:
-        case EnumContainerEnvironment.DOCKER | EnumContainerEnvironment.PODMAN:
+        case EnumEnvironment.DOCKER | EnumEnvironment.PODMAN:
             with GenericContainerEngine(**json.loads(acfg.model_dump_json())) as engined_cmd:
                 ccmd.launch(engined_cmd)
 

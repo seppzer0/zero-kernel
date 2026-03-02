@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Optional, Literal
 from subprocess import CompletedProcess
 
-from zkb.enums import EnumChroot, EnumCommand, EnumContainerEnvironment, EnumPackageType
+from zkb.enums import EnumChroot, EnumCommand, EnumEnvironment, EnumPackageType
 from zkb.tools import commands as ccmd
 from zkb.configs import DirectoryConfig as dcfg, ModelConfig
 from zkb.interfaces import IGenericContainerEngine
@@ -45,7 +45,7 @@ class GenericContainerEngine(ModelConfig, IGenericContainerEngine):
     _wdir_container: Path = Path("/", "zero_build")
     _wdir_local: Path = dcfg.root
 
-    benv: EnumContainerEnvironment
+    benv: EnumEnvironment
     command: EnumCommand
     codename: str
     base: str
@@ -193,7 +193,7 @@ class GenericContainerEngine(ModelConfig, IGenericContainerEngine):
 
     def __enter__(self) -> str:
         # prepare Docker if selected
-        if self.benv == EnumContainerEnvironment.DOCKER:
+        if self.benv == EnumEnvironment.DOCKER:
             self._force_buildkit()
 
         # build the image and prepare directories
