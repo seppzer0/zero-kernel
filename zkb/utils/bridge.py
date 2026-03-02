@@ -10,7 +10,7 @@ import logging
 import argparse
 
 from zkb.core import KernelBuilder, AssetsCollector
-from zkb.enums import EnumCommand, EnumPackageType, EnumChroot
+from zkb.enums import EnumCommand, EnumKernelBase, EnumPackageType, EnumChroot
 from zkb.managers import ResourceManager
 from zkb.commands import KernelCommand, AssetsCommand, BundleCommand
 
@@ -46,6 +46,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--base",
+        type=EnumKernelBase,
+        choices=tuple(EnumKernelBase),
         help="select a kernel base for the build"
     )
     parser.add_argument(
