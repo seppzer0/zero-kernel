@@ -10,6 +10,7 @@ An advanced Android kernel builder with assets collection and Kali NetHunter sup
   - [Description](#description)
   - [Kernel Features](#kernel-features)
   - [Supported Devices \& ROMs](#supported-devices--roms)
+  - [Usage](#usage)
   - [Prerequisites](#prerequisites)
   - [Examples](#examples)
   - [See also](#see-also)
