@@ -27,3 +27,7 @@ __pycache__
 /bundle
 /localversion
 /multi-build
+
+# AI
+#/.claude
+!.gitkeep
