@@ -10,11 +10,7 @@ An advanced Android kernel builder with assets collection and Kali NetHunter sup
   - [Description](#description)
   - [Kernel Features](#kernel-features)
   - [Supported Devices \& ROMs](#supported-devices--roms)
-  - [Usage](#usage)
-    - [Prerequisites](#prerequisites)
-    - [Kernel](#kernel)
-    - [Assets](#assets)
-    - [Bundle](#bundle)
+  - [Prerequisites](#prerequisites)
   - [Examples](#examples)
   - [See also](#see-also)
   - [Credits](#credits)
@@ -82,33 +78,16 @@ The custom build wrapper (aka "zkb") consists of 2 core components and 3 primary
 
 Components:
 
-- `kernel_builder`;
-- `assets_collector`.
+- kernel_builder ;
+- assets_collector.
 
 Commands:
 
-- `kernel`;
-- `assets`;
-- `bundle`.
+- kernel ;
+- assets ;
+- bundle.
 
-```help
-$ python3 zkb --help
-usage: zkb [-h] [--clean] {kernel,assets,bundle} ...
-
-A custom builder for the zero_kernel.
-
-positional arguments:
-  {kernel,assets,bundle}
-    kernel              build the kernel
-    assets              collect assets
-    bundle              build the kernel + collect assets
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --clean               clean the root directory
-```
-
-### Prerequisites
+## Prerequisites
 
 **It is highly recommended to use `docker` option to run this tool.** For that you need Docker Engine or Docker Desktop, depending on your OS.
 
@@ -124,105 +103,16 @@ To run this tool in a `local` environment, you will need:
 ```sh
 # install uv version from project file
 python3 -m pip install uv==$(cat ./uv-version.txt | tr -d ' \n')
+
 # make zkb/ internal imports visible to itself
 export PYTHONPATH=$(pwd)
-# prepare and activate dev environment
-uv sync --frozen --no-install-project
+
+# prepare and activate environment
+uv sync --frozen
 source .venv/bin/activate
 ```
 
 Once you are finished working with the project, don't forget to disable the virtual environment (venv) via simple `deactivate`.
-
-### Kernel
-
-Kernel build process can be launched using the `kernel` subcommand.
-
-```help
-$ python3 zkb kernel --help
-usage: zkb kernel [-h] --build-env {local,docker,podman} --base {los,pa,x,aosp}
-                      --codename CODENAME --lkv LKV [-c] [--clean-image] [--ksu]
-
-options:
-  -h, --help            show this help message and exit
-  --build-env {local,docker,podman}
-                        select build environment
-  --base {los,pa,x,aosp}
-                        select a kernel base for the build
-  --codename CODENAME   select device codename
-  --lkv LKV             select Linux Kernel Version
-  -c, --clean           don't build anything, only clean kernel directories
-  --clean-image         remove Docker/Podman image from the host machine after
-                        build
-  --ksu                 add KernelSU support
-```
-
-### Assets
-
-As mentioned, there is also an asset downloader, which can collect latest versions of ROM, TWRP, Magisk and it's modules, Kali Chroot etc.
-
-```help
-$ python3 zkb assets --help
-usage: zkb assets [-h] --build-env {local,docker,podman} --base {los,pa,x,aosp}
-                      --codename CODENAME --chroot {full,minimal} [--rom-only]
-                      [--clean-image] [--clean] [--ksu]
-
-options:
-  -h, --help            show this help message and exit
-  --build-env {local,docker,podman}
-                        select build environment
-  --base {los,pa,x,aosp}
-                        select a kernel base for the build
-  --codename CODENAME   select device codename
-  --chroot {full,minimal}
-                        select Kali chroot type
-  --rom-only            download only the ROM as an asset
-  --clean-image         remove Docker/Podman image from the host machine after
-                        build
-  --clean               autoclean 'assets' folder if it exists
-  --ksu                 add KernelSU support
-  --defconfig DEFCONFIG
-                        specify path to custom defconfig
-```
-
-### Bundle
-
-The `bundle` command is a combined usage of kernel builder and assets collector core modules.
-
-This is especially useful for linking the kernel build with the appropriate ROM build.
-
-There are cases when an old kernel build is used with the newer ROM build. Such cases can ultimately lead to your system working improperly or breaking down completely, which is why it is important to use a *specific* kernel build with a corresponding ROM build.
-
-Currently, there are three types of packaging available:
-
-- `conan`;
-- `slim`;
-- `full`.
-
-Options `full` and `conan` collect all of the assets required to successfuly flash the kernel onto your device. The difference between the two is that `full` option places everything into a local directory, while `conan` organizes everything as a Conan package.
-
-Option named `slim` is a much lighter version of `full` packaging, as only the ROM is collected from the asset list. This is done to reduce package sizes while ensuring the kernel+ROM compatibility.
-
-```help
-$ python3 zkb bundle --help
-usage: zkb bundle [-h] --build-env {local,docker,podman} --base {los,pa,x,aosp}
-                      --codename CODENAME --lkv LKV --package-type
-                      {conan,slim,full} [--conan-upload] [--clean-image] [--ksu]
-
-options:
-  -h, --help            show this help message and exit
-  --build-env {local,docker,podman}
-                        select build environment
-  --base {los,pa,x,aosp}
-                        select a kernel base for the build
-  --codename CODENAME   select device codename
-  --lkv LKV             select Linux Kernel Version
-  --package-type {conan,slim,full}
-                        select package type of the bundle
-  --conan-upload        upload Conan packages to remote
-  --clean-image         remove Docker/Podman image from the host machine after
-                        build
-  --ksu                 add KernelSU support
-```
 
 ## Examples
 
@@ -231,19 +121,19 @@ Here are some examples of commands:
 **(Recommended)** Build kernel and collect ROM via Docker:
 
 ```sh
-python3 zkb bundle --build-env=docker --base=los --codename=dumpling --lkv=4.4 --package-type=slim
+uv run zkb bundle --build-env=docker --base=los --codename=dumpling --lkv=4.4 --package-type=slim
 ```
 
 Build kernel locally:
 
 ```sh
-python3 zkb kernel --build-env=local --base=los --codename=dumpling --lkv=4.4
+uv run zkb kernel --build-env=local --base=los --codename=dumpling --lkv=4.4
 ```
 
 Collect all of the assets locally:
 
 ```sh
-python3 zkb assets --build-env=local --base=los --codename=dumpling --package-type=full
+uv run zkb assets --build-env=local --base=los --codename=dumpling --package-type=full
 ```
 
 ## See also
@@ -254,4 +144,4 @@ python3 zkb assets --build-env=local --base=los --codename=dumpling --package-ty
 
 ## Credits
 
-- [kali-nethunter-kernel](https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-kernel): official kernel patches from Kali NetHunter project.
+- [kali-nethunter-kernel](https://gitlab.com/kalilinux/nethunter/build-scripts/kali-nethunter-kernel) : Official kernel patches from Kali NetHunter project.
